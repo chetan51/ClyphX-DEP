@@ -68,6 +68,7 @@ GLOBAL_ACTIONS = {
     'LOOP' : 'do_loop_action',
     'LOC' : 'do_locator_action',
     'LOCLOOP' : 'do_locator_loop_action',
+    'CURLOCLOOP' : 'do_current_locator_loop_action',
     'METRO' : 'set_metronome', 
     'MIDI': 'send_midi_message',
     'OVER' : 'set_overdub',    

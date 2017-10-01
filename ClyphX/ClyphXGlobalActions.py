@@ -954,7 +954,7 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
 		    
     def do_locator_action(self, track, xclip, ident, args, move_loop_too=False): 
 	""" Jump between locators or to a particular locator. Can also move loop start to pos of locator if specified. """
-	args = args.strip()
+	args = args
 	if args == '>' and self.song().can_jump_to_next_cue:
 	    self.song().jump_to_next_cue()
 	elif args == '<' and self.song().can_jump_to_prev_cue:
@@ -970,6 +970,22 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
 	    except: pass
 	    
 	    
+    def do_current_locator_loop_action(self, track, xclip, ident, args):
+	""" Finds the most recent locator, sets an arrange loop starting from it and ending at the next locator, and enables looping. """
+	current_time = self.song().current_song_time
+	last_cue_point = None
+	try:
+		for cp in self.song().cue_points:
+			if cp.time > current_time:
+				if last_cue_point == None: return
+				loop_length = cp.time - last_cue_point.time
+				self.set_new_loop_position(last_cue_point.time, loop_length)
+				self.set_loop_on_off("ON")
+				return
+			last_cue_point = cp
+	except: pass
+  
+	    		    
     def do_loop_action(self, track, xclip, ident, args):
 	""" Handle arrange loop actions """
 	args = args.strip()
